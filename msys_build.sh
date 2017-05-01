@@ -21,5 +21,6 @@ fi
 
 cd /c/projects/world-1
 mkdir -p build && cd build
-cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
+cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON \
+      -DCMAKE_VERBOSE_MAKEFILE=ON ..
 make
