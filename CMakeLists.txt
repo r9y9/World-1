@@ -7,8 +7,6 @@ set(PROJECT_VER_PATCH 0)
 set(PROJECT_VER "${PROJECT_VER_MAJOR}.${PROJECT_VER_MINOR}.${PROJECT_VER_PATCH}")
 set(PROJECT_APIVER "${PROJECT_VER_MAJOR}.${PROJECT_VER_MINOR}")
 
-option(BUILD_EXAMPLES "Build examples" ON)
-
 # set the default path for built executables to the "bin" directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
