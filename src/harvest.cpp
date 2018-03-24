@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Copyright 2012 Masanori Morise
 // Author: mmorise [at] yamanashi.ac.jp (Masanori Morise)
-// Last update: 2017/03/04
+// Last update: 2018/01/21
 //
 // F0 estimation based on Harvest.
 //-----------------------------------------------------------------------------
@@ -488,7 +488,7 @@ static void GetSpectra(const double *x, int x_length, int fft_size,
   fft_execute(forward_real_fft->forward_fft);
   for (int i = 0; i <= fft_size / 2; ++i) {
     main_spectrum[i][0] = forward_real_fft->spectrum[i][0];
-    main_spectrum[i][1] = -forward_real_fft->spectrum[i][1];
+    main_spectrum[i][1] = forward_real_fft->spectrum[i][1];
   }
 
   for (int i = 0; i < base_time_length; ++i)
@@ -498,7 +498,7 @@ static void GetSpectra(const double *x, int x_length, int fft_size,
   fft_execute(forward_real_fft->forward_fft);
   for (int i = 0; i <= fft_size / 2; ++i) {
     diff_spectrum[i][0] = forward_real_fft->spectrum[i][0];
-    diff_spectrum[i][1] = -forward_real_fft->spectrum[i][1];
+    diff_spectrum[i][1] = forward_real_fft->spectrum[i][1];
   }
 
   delete[] safe_index;
@@ -984,8 +984,9 @@ static void FixStep3(const double *f0_step2, int f0_length,
     boundary_list, f0_candidates, number_of_candidates, allowed_range,
     multi_channel_f0, boundary_list);
 
-  MergeF0(multi_channel_f0, boundary_list, number_of_channels, f0_length,
-      f0_candidates, f0_scores, number_of_candidates, f0_step3);
+  if (number_of_channels != 0)
+    MergeF0(multi_channel_f0, boundary_list, number_of_channels, f0_length,
+        f0_candidates, f0_scores, number_of_candidates, f0_step3);
 
   for (int i = 0; i < number_of_boundaries / 2; ++i)
     delete[] multi_channel_f0[i];
@@ -1106,6 +1107,7 @@ static void SmoothF0Contour(const double *f0, int f0_length,
 
   for (int i = 0; i < number_of_boundaries / 2; ++i)
     delete[] multi_channel_f0[i];
+  delete[] multi_channel_f0;
   delete[] f0_contour;
   delete[] boundary_list;
 }
@@ -1156,10 +1158,11 @@ static void HarvestGeneralBody(const double *x, int x_length, int fs,
 
   // normalization
   int decimation_ratio = MyMaxInt(MyMinInt(speed, 12), 1);
-  int y_length = (1 + static_cast<int>(x_length / decimation_ratio));
+  int y_length =
+    static_cast<int>(ceil(static_cast<double>(x_length) / decimation_ratio));
   double actual_fs = static_cast<double>(fs) / decimation_ratio;
-  int fft_size = GetSuitableFFTSize(y_length +
-    (4 * static_cast<int>(1.0 + actual_fs / boundary_f0_list[0] / 2.0)));
+  int fft_size = GetSuitableFFTSize(y_length + 5 +
+    2 * static_cast<int>(2.0 * actual_fs / boundary_f0_list[0]));
 
   // Calculation of the spectrum used for the f0 estimation
   double *y = new double[fft_size];

@@ -6,12 +6,10 @@ It can estimate Fundamental frequency (F0), aperiodicity and spectral envelope a
 This source code is released under the modified-BSD license.
 There is no patent in all algorithms in WORLD.
 
-## Important notice (2017/06/09)
-Synthesis function was updated. The real-time synthesis function isn't updated.
-The difference between them are very small, but if you want to obtain the better one, please use synthesis().
-
-## Important notice (2017/05/20)
-In the latest version, the codec of spectral envelope has no compatibility with the previous version.
+## Important notice (2018/01/21)
+FFT functions were modified.
+If you have used another FFT function, you must change the sign of imaginary part in the spectrum for the compatibility.
+This version outputs the same result compared with major FFT functions (e.g. FFTW and MATLAB).
 
 ## References
 When you cite the latest version of WORLD in your paper, please use the sentence "WORLD \[1\] (D4C edition [2])" and cite the following papers.  
@@ -25,11 +23,11 @@ In CheapTrick, you can refer the following references.
 In DIO, you can refer the following reference.  
 [5] M. Morise, H. Kawahara and H. Katayose: Fast and reliable F0 estimation method based on the period extraction of vocal fold vibration of singing voice and speech, AES 35th International Conference, CD-ROM Proceeding, Feb. 2009.
 
-In Harvest, a paper was accepted!  
-[6] M. Morise: Harvest: A high-performance fundamental frequency estimator from speech signals, in Proc. INTERSPEECH 2017 (accepted).
+In Harvest, you can refer the following reference.  
+[6] M. Morise: Harvest: A high-performance fundamental frequency estimator from speech signals, in Proc. INTERSPEECH 2017, pp. 2321–2325, 2017. http://www.isca-speech.org/archive/Interspeech_2017/abstracts/0068.html
 
-In the codec of spectral envelope, a paper was accepted!  
-[7] M. Morise, G. Miyashita and K. Ozawa: Low-dimensional representation of spectral envelope without deterioration for full-band speech analysis/synthesis system, in Proc. INTERSPEECH 2017 (accepted).
+In the codec of spectral envelope, you can refer the following reference.  
+[7] M. Morise, G. Miyashita and K. Ozawa: Low-dimensional representation of spectral envelope without deterioration for full-band speech analysis/synthesis system, in Proc. INTERSPEECH 2017, pp. 409-413, 2017. http://www.isca-speech.org/archive/Interspeech_2017/abstracts/0067.html
 
 ## Introduction of WORLD family
 
