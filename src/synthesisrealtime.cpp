@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Copyright 2012 Masanori Morise
 // Author: mmorise [at] yamanashi.ac.jp (Masanori Morise)
-// Last update: 2017/05/09
+// Last update: 2018/12/13
 //
 // Voice synthesis based on f0, spectrogram and aperiodicity.
 // This is an implementation for real-time applications.
@@ -585,9 +585,10 @@ int Synthesis2(WorldSynthesizer *synth) {
     noise_size = tmp - current_location;
 
     GetOneFrameSegment(noise_size, current_location, synth);
-    offset = current_location - synth->synthesized_sample;
-    for (int i = 0; i < synth->fft_size; ++i) {
-      index = MyMaxInt(0, i + offset - synth->fft_size / 2 + 1);
+    offset =
+      current_location - synth->synthesized_sample - synth->fft_size / 2 + 1;
+    for (int i = MyMaxInt(0, -offset); i < synth->fft_size; ++i) {
+      index = i + offset;
       synth->buffer[index] += synth->impulse_response[i];
     }
     current_location = tmp;
